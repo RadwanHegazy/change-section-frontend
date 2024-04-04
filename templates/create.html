@@ -1,0 +1,50 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>انشاء منشور</title>
+    <link rel="stylesheet" href="{% static 'style/index.css' %}">
+    <link rel="stylesheet" href="{% static 'style/create.css' %}">
+</head>
+<body>
+    
+    <img src="{% static 'images/bg.png' %}" alt="" class="bg">
+
+
+
+    <div class="container">
+        
+        <form class="content" method="POST">
+            {% csrf_token %}
+            <div class="box create">
+                <input type="text" name="student_name" placeholder="اسمك بالكامل">
+                <input type="number" name="student_collage_id" placeholder="رقم الكارنية الجامعي">
+                <select name="level" id="">
+                    <option selected>الفرقة</option>
+                    <option value="1">فرقة اولي</option>
+                    <option value="2">فرقة تانية</option>
+                    <option value="3">فرقة تالتة</option>
+                    <option value="4">فرقة رابعة</option>
+                </select>
+                <input type="number" name="from_section" placeholder="رقم السكشن الحالي ">
+                <input type="number" name="to_section" placeholder="رقم السكشن المراد التحويل الية">
+                <input type="text" name="telegram" placeholder="اسم اليوزر الخاص بك علي تليجرام">
+                <input type="text" name="whatsapp" placeholder="رقم الواتس اب (اختياري)">
+                <button type="submit">انشر الان</button>
+                <a href="{% url 'home' %}">الرئيسية</a>
+            </div>
+            
+        </form>
+    
+    </div>
+
+    <script>
+        if("{{error}}"){
+            alert("{{error}}")
+        }
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,88 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الرئيسية</title>
+    <link rel="stylesheet" href="{% static 'style/index.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+    
+    <img src="{% static 'images/bg.png' %}" alt="" class="bg">
+
+    {% for msg in messages %}
+        <script>alert("{{msg}}")</script>
+    {% endfor %}
+
+    <form class="delete-overlay" method="POST" action="{% url 'delete' %}">
+        {% csrf_token %}
+        <p>الرجاء ادخال رقم الكارنية الجامعي لحذف منشورك</p>
+        <input type="number" name="student_collage_id">
+        <input type="text" name="post_id" hidden>
+        <div class="btns">
+            <button id="cancel" type="button">الغاء</button>
+            <button type="submit">حذف</button>
+        </div>
+    </form>
+
+    <div class="container">
+        <form class="up" method="get">
+            <select name="level" id="">
+                <option value="" selected>الكل</option>
+                <option value="1">فرقة أولي</option>
+                <option value="2">فرقة تانية</option>
+                <option value="3">فرقة تالتة</option>
+                <option value="4">فرقة رابعة</option>
+            </select>
+            <input type="number" name="from_section" placeholder="من سكشن">
+            <input type="number" name="to_section" placeholder="الي سكشن">
+            <button type="submit">بحث</button>
+            <a href="{% url 'create' %}">اضف منشور</a>
+        </form>
+
+        <div class="content">
+            
+            {% for post in data %}
+                <div class="box" data-postid="{{post.id}}">
+                    <div class="info">
+                        <small class="date">{{post.posted_at}}</small>
+                        <p>{{post.level}}</p>
+                    </div>
+                    <p class="name">{{post.student_name}}</p>
+                    <div class="section">
+                        <div class="from">{{post.from_section}}</div>
+                        <i class="fas fa-arrow-left"></i>
+                        <div class="to">{{post.to_section}}</div>
+                    </div>
+                    <div class="icons">
+                        <a href="#" class="fas fa-trash del" ></a>
+                        <a href="{{post.telegram}}" target="_blank" class="fa-brands fa-telegram tele"></a>
+                        {% if post.whatsapp %}
+                            <a href="{{post.whatsapp}}" target="_blank" class="fa-brands fa-whatsapp whats"></a>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endfor %}
+
+
+            <form class="paginations">
+                {% for i in pages %}
+                    {% if i == page %}
+                        <a href="?page={{i}}" class="active">{{i}}</a>
+                    {% else %}
+                        <a href="?page={{i}}">{{i}}</a>
+                    {% endif %}
+                        <!-- <button >2</button> -->
+                {% endfor %}
+            </form>
+
+        </div>
+    
+    </div>
+
+    <script src="{% static 'js/deletePost.js' %}"></script>
+
+</body>
+</html>
